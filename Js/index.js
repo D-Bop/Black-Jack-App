@@ -1,23 +1,43 @@
 alert("This page is still in progress")
-let firstCard = getRandomCard()
-let secondCard = getRandomCard()
-let cards = [firstCard, secondCard]
-let sum = firstCard + secondCard
+let cards = []
+let sum = 0; 
 let hasBlackJack = false
-let isAlive = true
+let isAlive = false
 let message = ""
 let messageEl = document.getElementById("message-el")
 let sumEl = document.querySelector("#sum-el")
 let cardsEl = document.querySelector("#cards-el")
+let playerEl = document.getElementById("player-el")
+
+//  Creating the player object 
+let player = {
+    name : "Divine",
+    chips : 145
+}
+
+playerEl.textContent = player.name + ": $" + player.chips
 
 //  Afunction to get random numbers for the cards
 function getRandomCard() {
-    let totCard = Math.floor(Math.random() * 7);
-    return totCard;
+    
+    let totCard = Math.floor(Math.random() * 13) + 1;
+    // return totCard;
+    if ( totCard > 10 ) {
+        return 10;
+    } else if ( totCard === 1) {
+        return 11
+    } else {
+        return totCard;
+    }
 }
 
 //  A function that starts the game and calls the render game button
 function startGame() {
+    isAlive = true;
+    let firstCard = getRandomCard()
+    let secondCard = getRandomCard()
+    cards = [firstCard, secondCard]
+    sum = firstCard + secondCard;
     renderGame()
 }
 
@@ -42,9 +62,11 @@ function renderGame() {
 
 //  A function that gets a new card upon request 
 function newCard () {
-    let card = getRandomCard();
-    sum += card;
-    cards.push(card)
-    renderGame();
+    if (isAlive === true && hasBlackJack === false) {
+        let card = getRandomCard();
+        sum += card;
+        cards.push(card)
+        renderGame();
+    }
 }
 
